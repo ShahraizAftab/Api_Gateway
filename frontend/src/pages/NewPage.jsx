@@ -45,6 +45,11 @@ const Dashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   const dashboardItems = [
     {
       title: "News",
@@ -78,22 +83,39 @@ const Dashboard = () => {
         <div style={{ fontSize: "18px", fontWeight: "500", color: "#007bff" }}>
           Welcome, {user.name}
         </div>
-        <button
-          onClick={updatePlan}
-          disabled={loading}
-          style={{
-            backgroundColor: user.plan === "pro" ? "#28a745" : "#007bff",
-            color: "white",
-            padding: "8px 16px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: loading ? "not-allowed" : "pointer",
-            fontSize: "14px",
-            fontWeight: "500",
-          }}
-        >
-          {loading ? "Updating..." : `Plan: ${user.plan.toUpperCase()}`}
-        </button>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <button
+            onClick={updatePlan}
+            disabled={loading}
+            style={{
+              backgroundColor: user.plan === "pro" ? "#28a745" : "#007bff",
+              color: "white",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "5px",
+              cursor: loading ? "not-allowed" : "pointer",
+              fontSize: "14px",
+              fontWeight: "500",
+            }}
+          >
+            {loading ? "Updating..." : `Plan: ${user.plan.toUpperCase()}`}
+          </button>
+          <button
+            onClick={handleLogout}
+            style={{
+              backgroundColor: "#dc3545",
+              color: "white",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: "500",
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Dashboard Content */}
