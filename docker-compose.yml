@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: api-gateway-backend
+    restart: unless-stopped
+    ports:
+      - "5010:5010"
+    # env_file:
+    #   - .env
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/apigatewaydb
+      - REDIS_URL=redis://redis:6379
+      - PORT=5010
+    volumes:
+      - ./backend:/app
+    command: npm run dev
+
+  mongo:
+    image: mongo:6
+    container_name: mongo-db
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis-cache
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mongo_data:
+  redis_data:
